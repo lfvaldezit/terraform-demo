@@ -1,6 +1,6 @@
 # Project in progress...
 
-# Work to be done
+Work to be done
 
 - Set up a DNS resolver within the Service VPC.
 - Configure both public and private DNS host entries.
