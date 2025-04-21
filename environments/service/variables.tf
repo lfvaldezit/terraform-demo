@@ -97,15 +97,35 @@ variable "outbound_direction" {
   type = string
 }
 
-variable "resolver_rule_name" {
+variable "out_rule_name" {
   type = string
 }
 
-variable "resolver_domain_name" {
+variable "out_domain_name" {
   type = string
 }
 
-variable "resolver_target_ip" {
+variable "out_target_ip_a" {
+  type = string
+}
+
+variable "out_target_ip_b" {
+  type = string
+}
+
+variable "in_rule_name" {
+  type = string
+}
+
+variable "in_domain_name" {
+  type = string
+}
+
+variable "in_target_ip_a" {
+  type = string
+}
+
+variable "in_target_ip_b" {
   type = string
 }
 

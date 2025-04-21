@@ -15,6 +15,10 @@ provider "aws" {
   profile = var.profile
 }
 
+provider "aws-general"{
+  profile = var.alternate
+}
+
 ############### VPC ###############
 
 module "vpc" {
@@ -323,6 +327,8 @@ module "web_server" {
                         EOF
 }
 
+############### APP LOAD BALANCER ###############
+
 module "alb" {
   depends_on         = [module.web_server]
   source             = "../../modules/alb"
@@ -344,4 +350,23 @@ resource "aws_lb_target_group_attachment" "tg-attachment" {
   target_group_arn = module.alb.target_group_arn
   target_id        = module.web_server.instance_id
   port             = var.port
+}
+
+############### PRIVATE HOSTED ZONE ###############
+
+module "domain" {
+  source = "../../modules/r53/hosted-zone"
+  name = var.domain_name
+  vpc = module.vpc.vpc_id 
+}
+
+resource "aws_route53_vpc_association_authorization" "association" {
+  vpc_id  = var.alternate_vpc_id
+  zone_id = module.domain.zone_id
+}
+
+resource "aws_route53_zone_association" "example" {
+  provider = aws.alternate
+  vpc_id  = aws_route53_vpc_association_authorization.association.vpc_id
+  zone_id = aws_route53_vpc_association_authorization.association.zone_id
 }

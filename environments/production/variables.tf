@@ -68,6 +68,11 @@ variable "profile" {
   type = string
 }
 
+variable "alternate" {
+  type = string
+}
+
+
 variable "ram_tgw_attach_id_name" {
   type = string
 }
@@ -159,3 +164,13 @@ variable "shared_tgw" {
   type = string
 }
 
+### HOSTED ZONE ###
+
+variable "domain_name" {
+  type = string
+}
+
+variable "alternate_vpc_id" {
+  description = "VPC ID to be associated with PHZ:"
+  type = string
+}

@@ -144,12 +144,23 @@ module "outbound" {
 
 }
 
-module "fwd" {
+module "fwd-outbound" {
   source               = "../../modules/r53/resolver-rule"
-  domain_name          = var.resolver_domain_name
-  name                 = var.resolver_rule_name
+  domain_name          = var.out_domain_name
+  name                 = var.out_rule_name
   resolver_endpoint_id = module.outbound.resolver_endpoint_id
-  target_ip            = var.resolver_target_ip
+  target_ip_a        = var.out_target_ip_a
+  target_ip_b        = var.out_target_ip_b
+  vpc_id = module.vpc.vpc_id
+}
+
+module "fwd-inbound" {
+  source               = "../../modules/r53/resolver-rule"
+  domain_name          = var.in_domain_name
+  name                 = var.in_rule_name
+  resolver_endpoint_id = module.inbound.resolver_endpoint_id
+  target_ip_a        = var.in_target_ip_a
+  target_ip_b        = var.in_target_ip_b
   vpc_id = module.vpc.vpc_id
 }
 
