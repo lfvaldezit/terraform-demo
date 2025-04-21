@@ -78,3 +78,37 @@ variable "ram_principals" {
 variable "default_route" {
   type = string
 }
+
+# R53 RESOLVER
+
+variable "inbound_name" {
+  type = string
+}
+
+variable "inbound_direction" {
+  type = string
+}
+
+variable "outbound_name" {
+  type = string
+}
+
+variable "outbound_direction" {
+  type = string
+}
+
+variable "resolver_rule_name" {
+  type = string
+}
+
+variable "resolver_domain_name" {
+  type = string
+}
+
+variable "resolver_target_ip" {
+  type = string
+}
+
+variable "sg_name" {
+  type = string
+}

@@ -25,10 +25,10 @@ module "tgw" {
 ## TGW attachment
 #
 module "tgw_attachment" {
-  source    = "../../modules/tgw-attach"
-  vpc       = module.vpc.vpc_id
-  subnet_id = module.vpc.transit_subnets_ids
-  tgw_id    = module.tgw.tgw_id
+  source          = "../../modules/tgw-attach"
+  vpc             = module.vpc.vpc_id
+  subnet_id       = module.vpc.transit_subnets_ids
+  tgw_id          = module.tgw.tgw_id
   tgw_attach_name = var.tgw_attach_name
 }
 
@@ -88,6 +88,70 @@ resource "aws_ram_resource_association" "tgw_ram_association" {
   resource_share_arn = module.tgw_ram.ram_arn
 }
 
+############### R53 RESOLVER ENDPOINTS ################
+
+module "security_group" {
+  source = "../../modules/security-group"
+  name   = var.sg_name
+  vpc_id = module.vpc.vpc_id
+
+  create_ingress_cidr    = "true"
+  ingress_cidr_from_port = [53, 53]
+  ingress_cidr_to_port   = [53, 53]
+  
+  ingress_cidr_block     = [var.default_route, var.default_route]
+  ingress_cidr_protocol  = ["tcp", "udp"]
+
+  create_ingress_sg          = "false"
+  ingress_sg_from_port       = [0]
+  ingress_sg_to_port         = [0]
+  ingress_sg_protocol        = [-1]
+  ingress_security_group_ids = []
+
+  create_egress_cidr    = "false"
+  egress_cidr_from_port = [0]
+  egress_cidr_to_port   = [0]
+  egress_cidr_protocol  = [-1]
+  egress_cidr_block     = []
+
+  create_egress_sg          = "false"
+  egress_sg_from_port       = [0]
+  egress_sg_to_port         = [0]
+  egress_sg_protocol        = [-1]
+  egress_security_group_ids = []
+
+}
+
+module "inbound" {
+  source             = "../../modules/r53/resolver-endpoint"
+  name               = var.inbound_name
+  direction          = var.inbound_direction
+  security_group_ids = module.security_group.security_group_ids
+
+  subnet_id_a = module.vpc.priv_subnets_ids[0]
+  subnet_id_b = module.vpc.priv_subnets_ids[1]
+
+}
+
+module "outbound" {
+  source             = "../../modules/r53/resolver-endpoint"
+  name               = var.outbound_name
+  direction          = var.outbound_direction
+  security_group_ids = module.security_group.security_group_ids
+
+  subnet_id_a = module.vpc.priv_subnets_ids[0]
+  subnet_id_b = module.vpc.priv_subnets_ids[1]
+
+}
+
+module "fwd" {
+  source               = "../../modules/r53/resolver-rule"
+  domain_name          = var.resolver_domain_name
+  name                 = var.resolver_rule_name
+  resolver_endpoint_id = module.outbound.resolver_endpoint_id
+  target_ip            = var.resolver_target_ip
+  vpc_id = module.vpc.vpc_id
+}
 
 ############### OUTPUTS ################
 
