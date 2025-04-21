@@ -5,7 +5,11 @@ resource "aws_route53_resolver_rule" "this" {
   resolver_endpoint_id = var.resolver_endpoint_id
 
   target_ip {
-    ip = var.target_ip
+    ip = var.target_ip_a
+  }
+
+  target_ip {
+    ip = var.target_ip_b
   }
 }
 
