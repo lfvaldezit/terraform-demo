@@ -7,4 +7,4 @@ Work to be done
 - Deploy on-premise VPC and resources
 - Implement WAF.
 
-![aws-demo](https://github.com/user-attachments/assets/4c412c71-57a0-4e70-9917-96632101c007)
+![aws-demo](https://github.com/user-attachments/assets/bb82dc31-d699-419e-9932-5444d3fc5407)
