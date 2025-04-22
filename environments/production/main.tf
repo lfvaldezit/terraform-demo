@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     aws = {
@@ -352,6 +351,26 @@ resource "aws_lb_target_group_attachment" "tg-attachment" {
   port             = var.port
 }
 
+############### FORWARD RULE ASSOCIATION ###############
+
+#data "aws_ram_resource_share" "shared_ram_fwd_rule_corp" {
+#  resource_owner = "OTHER-ACCOUNTS"
+#  
+#}
+#
+#data "aws_ram_resource_share" "shared_ram_fwd_rule_cloud" {
+#  id = 
+#}
+data "aws_route53_resolver_rule" "example" {
+  domain_name = "corp.lfvaldezit.click"
+  rule_type   = "FORWARD"
+}
+
+resource "aws_route53_resolver_rule_association" "example" {
+  resolver_rule_id = data.aws_route53_resolver_rule.example.id
+  vpc_id           = module.vpc.vpc_id
+}
+
 ############### PRIVATE HOSTED ZONE ###############
 
 module "domain" {
@@ -366,7 +385,7 @@ resource "aws_route53_vpc_association_authorization" "association" {
 }
 
 resource "aws_route53_zone_association" "example" {
-  provider = aws.alternate
+  provider = aws-general
   vpc_id  = aws_route53_vpc_association_authorization.association.vpc_id
   zone_id = aws_route53_vpc_association_authorization.association.zone_id
 }

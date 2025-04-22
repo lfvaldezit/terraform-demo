@@ -63,6 +63,14 @@ variable "ram_name" {
   type = string
 }
 
+variable "fwd1_ram_name" {
+  type = string
+}
+
+variable "fwd2_ram_name" {
+  type = string
+}
+
 variable "ram_tgw_id" {
   type = string
 }
@@ -97,35 +105,35 @@ variable "outbound_direction" {
   type = string
 }
 
-variable "out_rule_name" {
+variable "corp_rule_name" {
   type = string
 }
 
-variable "out_domain_name" {
+variable "corp_domain_name" {
   type = string
 }
 
-variable "out_target_ip_a" {
+variable "corp_target_ip_a" {
   type = string
 }
 
-variable "out_target_ip_b" {
+variable "corp_target_ip_b" {
   type = string
 }
 
-variable "in_rule_name" {
+variable "cloud_rule_name" {
   type = string
 }
 
-variable "in_domain_name" {
+variable "cloud_domain_name" {
   type = string
 }
 
-variable "in_target_ip_a" {
+variable "cloud_target_ip_a" {
   type = string
 }
 
-variable "in_target_ip_b" {
+variable "cloud_target_ip_b" {
   type = string
 }
 

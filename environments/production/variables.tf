@@ -161,7 +161,7 @@ variable "health_check_path" {
 
 variable "shared_tgw" {
   description = "Transit Gateway Id:"
-  type = string
+  type        = string
 }
 
 ### HOSTED ZONE ###
@@ -172,5 +172,5 @@ variable "domain_name" {
 
 variable "alternate_vpc_id" {
   description = "VPC ID to be associated with PHZ:"
-  type = string
+  type        = string
 }

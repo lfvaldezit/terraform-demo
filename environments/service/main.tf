@@ -144,25 +144,50 @@ module "outbound" {
 
 }
 
-module "fwd-outbound" {
+module "fwd-corp_lfvaldezit" {
   source               = "../../modules/r53/resolver-rule"
-  domain_name          = var.out_domain_name
-  name                 = var.out_rule_name
+  domain_name          = var.corp_domain_name
+  name                 = var.corp_rule_name
   resolver_endpoint_id = module.outbound.resolver_endpoint_id
-  target_ip_a        = var.out_target_ip_a
-  target_ip_b        = var.out_target_ip_b
+  target_ip_a        = var.corp_target_ip_a
+  target_ip_b        = var.corp_target_ip_b
   vpc_id = module.vpc.vpc_id
 }
 
-module "fwd-inbound" {
+module "fwd-cloud_lfvaldezit" {
   source               = "../../modules/r53/resolver-rule"
-  domain_name          = var.in_domain_name
-  name                 = var.in_rule_name
-  resolver_endpoint_id = module.inbound.resolver_endpoint_id
-  target_ip_a        = var.in_target_ip_a
-  target_ip_b        = var.in_target_ip_b
+  domain_name          = var.cloud_domain_name
+  name                 = var.cloud_rule_name
+  resolver_endpoint_id = module.outbound.resolver_endpoint_id
+  target_ip_a        = var.cloud_target_ip_a
+  target_ip_b        = var.cloud_target_ip_b
   vpc_id = module.vpc.vpc_id
 }
+
+module "ram_fwd_corp" {
+  source = "../../modules/ram"
+  ram_name = var.fwd1_ram_name
+  ram_principals = var.ram_principals
+  allow_external_principals = var.allow_external_principals
+}
+
+resource "aws_ram_resource_association" "fwd_corp_ram_association" {
+  resource_arn       = module.fwd-corp_lfvaldezit.resolver_arn
+  resource_share_arn = module.ram_fwd_corp.ram_arn
+}
+
+module "ram_fwd_cloud" {
+  source = "../../modules/ram"
+  ram_name = var.fwd1_ram_name
+  ram_principals = var.ram_principals
+  allow_external_principals = var.allow_external_principals
+}
+
+resource "aws_ram_resource_association" "fwd_cloud_ram_association" {
+  resource_arn       = module.fwd-cloud_lfvaldezit.resolver_arn
+  resource_share_arn = module.ram_fwd_cloud.ram_arn
+}
+
 
 ############### OUTPUTS ################
 
