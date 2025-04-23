@@ -57,6 +57,14 @@ variable "pref_aws" {
 variable "pref_ingress" {
   type = string
 }
-### TGW Attachment ###
+### ###
 
+variable "service_vpc_id" {
+  description = "VPC ID to be associated with PHZ (corp.lfvaldezit.click):"
+  type = string
+}
 
+variable "host_id" {
+  description = "Host ID (corp.lfvaldezit.click):"
+  type = string
+}

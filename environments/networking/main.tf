@@ -142,3 +142,11 @@ resource "aws_ec2_transit_gateway_route" "egress_prefix_aws" {
 #  transit_gateway_attachment_id  = data.aws_ec2_transit_gateway_vpc_attachment.prod_attachment.id
 #  transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.ingress_tgw_rt.id
 #}
+
+
+############### ROUTE53 ASSOCIATION ###############
+
+resource "aws_route53_zone_association" "example" {
+  vpc_id  = var.service_vpc_id
+  zone_id = var.host_id
+}
