@@ -14,10 +14,6 @@ provider "aws" {
   profile = var.profile
 }
 
-provider "aws-general"{
-  profile = var.alternate
-}
-
 ############### VPC ###############
 
 module "vpc" {
@@ -380,12 +376,6 @@ module "domain" {
 }
 
 resource "aws_route53_vpc_association_authorization" "association" {
-  vpc_id  = var.alternate_vpc_id
+  vpc_id  = var.service_vpc_id
   zone_id = module.domain.zone_id
-}
-
-resource "aws_route53_zone_association" "example" {
-  provider = aws-general
-  vpc_id  = aws_route53_vpc_association_authorization.association.vpc_id
-  zone_id = aws_route53_vpc_association_authorization.association.zone_id
 }

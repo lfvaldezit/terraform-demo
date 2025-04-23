@@ -170,7 +170,7 @@ variable "domain_name" {
   type = string
 }
 
-variable "alternate_vpc_id" {
+variable "service_vpc_id" {
   description = "VPC ID to be associated with PHZ:"
   type        = string
 }
