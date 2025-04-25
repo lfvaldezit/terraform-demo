@@ -68,11 +68,6 @@ variable "profile" {
   type = string
 }
 
-variable "alternate" {
-  type = string
-}
-
-
 variable "ram_tgw_attach_id_name" {
   type = string
 }
