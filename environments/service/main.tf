@@ -176,21 +176,27 @@ resource "aws_ram_resource_association" "fwd_corp_ram_association" {
   resource_share_arn = module.ram_fwd_corp.ram_arn
 }
 
-module "ram_fwd_cloud" {
-  source = "../../modules/ram"
-  ram_name = var.fwd1_ram_name
-  ram_principals = var.ram_principals
-  allow_external_principals = var.allow_external_principals
-}
-
-resource "aws_ram_resource_association" "fwd_cloud_ram_association" {
-  resource_arn       = module.fwd-cloud_lfvaldezit.resolver_arn
-  resource_share_arn = module.ram_fwd_cloud.ram_arn
-}
+#module "ram_fwd_cloud" {
+#  source = "../../modules/ram"
+#  ram_name = var.fwd1_ram_name
+#  ram_principals = var.ram_principals
+#  allow_external_principals = var.allow_external_principals
+#}
+#
+#resource "aws_ram_resource_association" "fwd_cloud_ram_association" {
+#  resource_arn       = module.fwd-cloud_lfvaldezit.resolver_arn
+#  resource_share_arn = module.ram_fwd_cloud.ram_arn
+#}
 
 
 ############### OUTPUTS ################
 
+output "tgw_id" {
+  value = module.tgw.tgw_id
+}
+
 output "tgw_attachment_id" {
   value = module.tgw_attachment.tgw_attachment_id
 }
+
+
