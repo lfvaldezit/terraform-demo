@@ -1,4 +1,4 @@
-#### DATA ####
+### DATA ####
 
 data "aws_ec2_transit_gateway" "shared_tgw" {
   id = ""
