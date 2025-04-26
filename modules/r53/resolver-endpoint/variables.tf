@@ -17,3 +17,11 @@ variable "subnet_id_a" {
 variable "subnet_id_b" {
   type = string
 }
+
+variable "ip_a" {
+  type = string
+}
+
+variable "ip_b" {
+  type = string
+}

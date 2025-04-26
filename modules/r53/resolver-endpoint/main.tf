@@ -7,10 +7,12 @@ resource "aws_route53_resolver_endpoint" "this" {
   
   ip_address {
     subnet_id = var.subnet_id_a
+    ip = var.ip_a
   }
 
   ip_address {
     subnet_id = var.subnet_id_b
+    ip = var.ip_b
   }
 
 }
