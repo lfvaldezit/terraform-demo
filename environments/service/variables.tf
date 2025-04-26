@@ -17,12 +17,16 @@ variable "enable_dns_hostnames" {
   description = "Whether to enable DNS hostnames or not"
 }
 
-variable "sn_tags_private" {
+variable "sn_tag_private" {
   type = string
 }
 
-variable "sn_tags_transit" {
+variable "sn_tag_transit" {
   type = string
+}
+
+variable "tag_subnet" {
+  type = list(any)
 }
 
 variable "letter_azs" {
@@ -32,6 +36,14 @@ variable "letter_azs" {
 variable "availability_zones" {
   type        = list(string)
   description = "List of availability zones"
+}
+
+variable "private_cidr_block" {
+  type = list(any)
+}
+
+variable "transit_cidr_block" {
+  type = list(any)
 }
 
 variable "tgw_asn" {
@@ -97,11 +109,27 @@ variable "inbound_direction" {
   type = string
 }
 
+variable "inbound_ip_a" {
+  type = string
+}
+
+variable "inbound_ip_b" {
+  type = string
+}
+
 variable "outbound_name" {
   type = string
 }
 
 variable "outbound_direction" {
+  type = string
+}
+
+variable "outbound_ip_a" {
+  type = string
+}
+
+variable "outbound_ip_b" {
   type = string
 }
 
