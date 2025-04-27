@@ -1,35 +1,21 @@
-
 ############### VPC ###############
 
-#module "vpc" {
-#  source               = "../../modules/vpc"
-#  vpc_cidr_block       = var.vpc_cidr
-#  instance_tenancy     = var.instance_tenancy
-#  enable_dns_hostnames = var.enable_dns_hostnames
-#  enable_dns_support   = var.enable_dns_support
-#  tags_private         = var.sn_tag_private
-#  tags_transit         = var.sn_tag_transit
-#  availability_zones   = var.availability_zones
-#  letter_azs           = var.letter_azs
-#  vpc_name             = var.vpc_name
-#}
-
 module "vpc" {
-  source               = "../../modules/_vpc"
-  vpc_cidr_block       = var.vpc_cidr
-  instance_tenancy     = var.instance_tenancy
-  enable_dns_hostnames = var.enable_dns_hostnames
-  enable_dns_support   = var.enable_dns_support
-  availability_zones   = var.availability_zones
-  letter_azs           = var.letter_azs
-  vpc_name             = var.vpc_name
-  main_cidr_block = var.private_cidr_block
-  secondary_cidr_block = var.transit_cidr_block
-  main_route_table_id = aws_route_table.rt_private.id
+  source                   = "../../modules/_vpc"
+  vpc_cidr_block           = var.vpc_cidr
+  instance_tenancy         = var.instance_tenancy
+  enable_dns_hostnames     = var.enable_dns_hostnames
+  enable_dns_support       = var.enable_dns_support
+  availability_zones       = var.availability_zones
+  letter_azs               = var.letter_azs
+  vpc_name                 = var.vpc_name
+  main_cidr_block          = var.private_cidr_block
+  secondary_cidr_block     = var.transit_cidr_block
+  main_route_table_id      = aws_route_table.rt_private.id
   secondary_route_table_id = aws_route_table.rt_transit.id
-  tag_main_subnet = var.sn_tag_private
-  tag_secondary_subnet = var.sn_tag_transit
-  tag_subnet           = var.tag_subnet
+  tag_main_subnet          = var.sn_tag_private
+  tag_secondary_subnet     = var.sn_tag_transit
+  tag_subnet               = var.tag_subnet
 }
 
 ############### DATA ###############
@@ -44,9 +30,8 @@ module "tgw" {
 #
 module "tgw_attachment" {
 
-  source          = "../../modules/tgw-attach"
-  vpc             = module.vpc.vpc_id
-  #subnet_id       = module.vpc.transit_subnets_ids
+  source = "../../modules/tgw-attach"
+  vpc    = module.vpc.vpc_id
   subnet_id       = module.vpc.secondary_subnet_id
   tgw_id          = module.tgw.tgw_id
   tgw_attach_name = var.tgw_attach_name
@@ -78,20 +63,6 @@ resource "aws_route_table" "rt_private" {
   }
 }
 
-## Route table association
-#
-#resource "aws_route_table_association" "rt_private_association" {
-#  count          = length(module.vpc.priv_subnets_ids)
-#  route_table_id = aws_route_table.rt_private.id
-#  subnet_id      = module.vpc.priv_subnets_ids[count.index]
-#}
-#
-#resource "aws_route_table_association" "rt_transit_association" {
-#  count          = length(module.vpc.transit_subnets_ids)
-#  route_table_id = aws_route_table.rt_transit.id
-#  subnet_id      = module.vpc.transit_subnets_ids[count.index]
-#}
-#
 ############### RAM ###############
 
 module "tgw_ram" {
@@ -148,12 +119,10 @@ module "inbound" {
   direction          = var.inbound_direction
   security_group_ids = module.security_group.security_group_ids
 
-  #subnet_id_a = module.vpc.priv_subnets_ids[0]
-  #subnet_id_b = module.vpc.priv_subnets_ids[1]
   subnet_id_a = module.vpc.main_subnet_id[0]
-  ip_a = var.inbound_ip_a
+  ip_a        = var.inbound_ip_a
   subnet_id_b = module.vpc.main_subnet_id[1]
-  ip_b = var.inbound_ip_b
+  ip_b        = var.inbound_ip_b
 }
 
 module "outbound" {
@@ -162,13 +131,10 @@ module "outbound" {
   direction          = var.outbound_direction
   security_group_ids = module.security_group.security_group_ids
 
-  #subnet_id_a = module.vpc.priv_subnets_ids[0]
-  #subnet_id_b = module.vpc.priv_subnets_ids[1]
-
   subnet_id_a = module.vpc.main_subnet_id[0]
-  ip_a = var.outbound_ip_a
+  ip_a        = var.outbound_ip_a
   subnet_id_b = module.vpc.main_subnet_id[1]
-  ip_b = var.outbound_ip_b
+  ip_b        = var.outbound_ip_b
 
 }
 
@@ -203,19 +169,6 @@ resource "aws_ram_resource_association" "fwd_corp_ram_association" {
   resource_arn       = module.fwd-corp_lfvaldezit.resolver_arn
   resource_share_arn = module.ram_fwd_corp.ram_arn
 }
-
-#module "ram_fwd_cloud" {
-#  source = "../../modules/ram"
-#  ram_name = var.fwd1_ram_name
-#  ram_principals = var.ram_principals
-#  allow_external_principals = var.allow_external_principals
-#}
-#
-#resource "aws_ram_resource_association" "fwd_cloud_ram_association" {
-#  resource_arn       = module.fwd-cloud_lfvaldezit.resolver_arn
-#  resource_share_arn = module.ram_fwd_cloud.ram_arn
-#}
-
 
 ############### OUTPUTS ################
 
