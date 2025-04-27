@@ -2,6 +2,7 @@
 resource "aws_route53_resolver_endpoint" "this" {
   name = var.name
   direction = var.direction
+  resolver_endpoint_type = "IPV4"
 
   security_group_ids = [var.security_group_ids]
   
