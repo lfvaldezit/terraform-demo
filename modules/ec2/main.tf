@@ -5,5 +5,4 @@ resource "aws_instance" "ec2" {
     user_data = var.user_data
     subnet_id = var.subnet_id
     iam_instance_profile = var.iam_instance_profile
-    associate_public_ip_address = var.associate_public_ip_address
 }

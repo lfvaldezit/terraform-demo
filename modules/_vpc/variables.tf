@@ -41,10 +41,6 @@ variable "letter_azs" {
   type = list(string)
 }
 
-variable "tag_subnet" {
-  type = list(any)
-}
-
 variable "tag_main_subnet" {
   type = string
 }

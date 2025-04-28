@@ -21,7 +21,3 @@
     variable "iam_instance_profile" {
       type = string
     }
-
-    variable "associate_public_ip_address" {
-      type = string
-    }
