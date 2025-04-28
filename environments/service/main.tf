@@ -15,7 +15,6 @@ module "vpc" {
   secondary_route_table_id = aws_route_table.rt_transit.id
   tag_main_subnet          = var.sn_tag_private
   tag_secondary_subnet     = var.sn_tag_transit
-  tag_subnet               = var.tag_subnet
 }
 
 ############### DATA ###############

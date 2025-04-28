@@ -25,10 +25,6 @@ variable "sn_tag_transit" {
   type = string
 }
 
-variable "tag_subnet" {
-  type = list(any)
-}
-
 variable "letter_azs" {
   type = list(string)
 }
