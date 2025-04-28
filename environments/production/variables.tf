@@ -144,10 +144,6 @@ variable "target_type" {
   type = string
 }
 
-variable "associate_public_ip_address" {
-  type = bool
-}
-
 variable "health_check_path" {
   type = string
 }

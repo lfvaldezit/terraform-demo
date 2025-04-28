@@ -260,7 +260,6 @@ module "web_server" {
   security_group_ids          = [module.security_group.security_group_ids]
   subnet_id                   = element(module.vpc.priv_subnets_ids, length(module.vpc.priv_subnets_ids))
   iam_instance_profile        = aws_iam_instance_profile.ec2_instance_prof.name
-  associate_public_ip_address = var.associate_public_ip_address
   user_data                   = <<-EOF
                             #!/bin/bash -xe
                             set -x  # Enable debugging
